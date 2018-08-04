@@ -3,7 +3,8 @@ class BaseBlock {
         this.matrix = [[], []];
         this.board = CanvasContext;
         this.color;
-
+        this.dropping=false;
+        
         this.xOffset = 3;
         this.yOffset = 0;
     }
@@ -11,6 +12,7 @@ class BaseBlock {
     Move(x, y) {
         this.xOffset += x;
         this.yOffset += y;
+        //        console.log(this.yOffset);
     }
 
     IsOnGround(globalMatrix) {
@@ -56,18 +58,16 @@ class BaseBlock {
 
         return this.matrix.some((row, y) => {
             return row.some((e, x) => {
-               
-                if (e == 1 && globalMatrix[y + this.yOffset][x + this.xOffset] == 1) {
 
-                    console.log('colision on X: ' + (x + this.xOffset) + "   Y: " + (y + this.yOffset));
-                    return true;
+                if (e == 1) {
+                    if ((x + this.xOffset) < 0 || (x + this.xOffset) > 9 || (y + this.yOffset) < 0 || (y + this.yOffset) > 19
+                        || globalMatrix[y + this.yOffset][x + this.xOffset] == 1) {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-
             });
-        }
-
-        )
+        })
     }
 
 
