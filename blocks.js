@@ -13,6 +13,7 @@ class BaseBlock {
         this.yOffset += y;
     }
 
+    
     RotateRight() {
 
         // reverse the rows
