@@ -1,25 +1,40 @@
 $(document).keydown(function (e) {
-    console.log(e.which);
+
 
     switch (e.which) {
         case 32: // space - drop
             break;
         case 37: //left
             block.Move(-1, 1);
+            if (block.CheckCollision(board)) {
+                block.Move(1, -1);
+            }
             break;
 
         case 39: //right
             block.Move(1, 1);
+            if (block.CheckCollision(board)) {
+                block.Move(-1, -1);
+            }
             break;
         case 40: //down
             block.Move(0, 1);
+            if (block.CheckCollision(board)) {
+                block.Move(0, -1);
+            }
             break;
 
         case 65: //a
             block.RotateLeft();
+            if (block.CheckCollision(board)) {
+                block.RotateRight();
+            }
             break;
         case 68: //d
             block.RotateRight();
+            if (block.CheckCollision(board)) {
+                block.RotateLeft();
+            }
             break;
     }
 })
@@ -39,7 +54,7 @@ var block = new T_Block(context);
 let board = new Array(21);
 
 for (var i = 0; i < 20; i++) {
-    board[i] = new Array(10);
+    board[i] = new Array(10).fill(0);
 }
 board[20] = new Array(10).fill(1);
 board[21] = new Array(10).fill(1);
@@ -59,27 +74,95 @@ function update(time = 0) {
     cycle += dTime;
 
 
-    if (cycle > 500) {
+    if (cycle > interval) {
 
         cycle = 0;
 
         if (block.IsOnGround(board)) {
-            console.log('impact');
-            pile.push(block);
-            block = new I_Block(context);
+            AddBlockToPile();
+            interval = 500;
+            board.forEach((row, y) => {
+                row.forEach((e, x) => {
+                })
+            })
+
+            block = GenerateBlock();
         }
         else {
 
             block.Move(0, 1);
         }
     }
-    context.fillStyle = '#000';
+    context.fillStyle = '#ccc';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     block.Draw();
-    pile.forEach((e)=>e.Draw());
+    DrawPile();
 
     requestAnimationFrame(update);
 
 }
 
+function DrawPile() {
+    board.forEach((row, y) => {
+        row.forEach((e, x) => {
+
+            if (e == 1) {
+                context.fillStyle = '#333';
+                context.fillRect(x, y, 1, 1);
+            }
+
+        })
+    })
+
+}
+
+function AddBlockToPile() {
+    pile.push(block);
+    block.matrix.forEach((row, y) => {
+        row.forEach((e, x) => {
+            if (e == 1) {
+                board[block.yOffset + y][block.xOffset + x] = 1;
+            }
+        })
+    });
+}
+
+
+function GenerateBlock() {
+
+    switch (Math.floor(Math.random() * 6)) {
+
+        case 0:
+            return new T_Block(context);
+            break;
+
+
+        case 1:
+            return new I_Block(context);
+            break;
+
+
+        case 2:
+            return new L_Block(context);
+            break;
+
+
+        case 3:
+            return new revL_Block(context);
+            break;
+
+
+        case 4:
+            return new S_Block(context);
+            break;
+
+
+        case 5:
+            return new Square_Block(context);
+            break;
+
+        default:
+            console.log('wrong random')
+    }
+}

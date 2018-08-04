@@ -18,9 +18,7 @@ class BaseBlock {
         this.Move(0, 1);
         let result = this.CheckCollision(globalMatrix);
         this.Move(0, -1);
-        console.log(result);
         return result;
-
     }
 
     RotateRight() {
@@ -58,7 +56,6 @@ class BaseBlock {
 
         return this.matrix.some((row, y) => {
             return row.some((e, x) => {
-                console.log('checking on X: ' + (x + this.xOffset) + "   Y: " + (y + this.yOffset) + "  e is: " + e + "    global: " + globalMatrix[y + this.yOffset][x + this.xOffset]);
                
                 if (e == 1 && globalMatrix[y + this.yOffset][x + this.xOffset] == 1) {
 
@@ -67,7 +64,7 @@ class BaseBlock {
                 }
                 return false;
 
-            })
+            });
         }
 
         )
