@@ -13,7 +13,16 @@ class BaseBlock {
         this.yOffset += y;
     }
 
-    
+    IsOnGround(globalMatrix) {
+
+        this.Move(0, 1);
+        let result = this.CheckCollision(globalMatrix);
+        this.Move(0, -1);
+        console.log(result);
+        return result;
+
+    }
+
     RotateRight() {
 
         // reverse the rows
@@ -46,17 +55,22 @@ class BaseBlock {
     }
 
     CheckCollision(globalMatrix) {
-        this.matrix.forEach((row, y) => {
-            row.forEach((e, x) => {
+
+        return this.matrix.some((row, y) => {
+            return row.some((e, x) => {
                 console.log('checking on X: ' + (x + this.xOffset) + "   Y: " + (y + this.yOffset) + "  e is: " + e + "    global: " + globalMatrix[y + this.yOffset][x + this.xOffset]);
+               
                 if (e == 1 && globalMatrix[y + this.yOffset][x + this.xOffset] == 1) {
 
                     console.log('colision on X: ' + (x + this.xOffset) + "   Y: " + (y + this.yOffset));
                     return true;
                 }
+                return false;
+
             })
-        })
-        return false;
+        }
+
+        )
     }
 
 
@@ -79,9 +93,9 @@ class T_Block extends BaseBlock {
 
         this.color = 'red';
         this.matrix = [
-            [0, 0, 0],
             [1, 1, 1],
-            [0, 1, 0]
+            [0, 1, 0],
+            [0, 0, 0]
         ]
     }
 }
@@ -139,6 +153,19 @@ class revL_Block extends BaseBlock {
             [0, 1, 0],
             [0, 1, 0],
             [1, 1, 0]
+        ];
+    }
+}
+
+class S_Block extends BaseBlock {
+    constructor(CanvasContext) {
+        super(CanvasContext);
+
+        this.color = 'yellow';
+        this.matrix = [
+            [0, 1, 1],
+            [1, 1, 0],
+            [0, 0, 0]
         ];
     }
 }
