@@ -30,22 +30,20 @@ context.fillRect(0, 0, canvas.width, canvas.height);
 
 let gameOver = false;
 let Score = 0;
-let interval = 250;
 let cycle = 0;
 let lastTime = 0;
+let interval = 200;
 
-let game = new Game(context);
+
+let game = new Game(context, interval);
 
 update();
 
-function SetScore(increment) {
-    Score += increment;
-    $('#Score').text(Score);
-}
+
 
 function Restart() {
 
-    game = new Game(context);
+    game = new Game(context, interval);
     Score = 0;
     $('#Score').text(Score);
 
@@ -58,7 +56,7 @@ function update(time = 0) {
     cycle += dTime;
 
 
-    if (cycle > interval && !gameOver) {
+    if (cycle > game.interval && !gameOver) {
 
         cycle = 0;
 
