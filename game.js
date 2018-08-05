@@ -6,9 +6,6 @@ class Game{
         }
     }
     SetBoard(x, y, val) {
-        console.log('setBoard 1: '+this.board.toString());
         this.board[x][y] = val;
-        console.log('setting '+x+'  '+y+ '  to  '+val);
-        console.log('setBoard 2: '+this.board.toString());
     }
 }

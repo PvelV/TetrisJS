@@ -119,13 +119,9 @@ function IsGameOver() {
 }
 
 function RemoveRows(rows) {
-    console.log(rows)
-    console.log(game.board.toString());
     if (rows == undefined || rows.length === 0) {
-        console.log('not')
         return;
     }
-    console.log('removing');
     
     rows.forEach((index) => {
 
@@ -169,7 +165,6 @@ function AddBlockToPile() {
             if (e == 1) {
                 game.SetBoard((block.yOffset + y),(block.xOffset + x), 1);
                 addedBlocks++;
-                console.log('added blocks:' + addedBlocks);
             }
             if (addedBlocks > 4) {
                 alert('error');

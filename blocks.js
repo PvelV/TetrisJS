@@ -13,7 +13,6 @@ class BaseBlock {
         this.xOffset += x;
         this.yOffset += y;
         if (y!=0) {
-            console.log(this.yOffset);
         }
     }
 
@@ -22,7 +21,6 @@ class BaseBlock {
         this.Move(0, 1);
         let result = this.CheckCollision(globalMatrix);
         this.Move(0, -1);
-        console.log('IsOnGround ' + globalMatrix.toString());
         
         return result;
     }
