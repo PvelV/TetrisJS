@@ -1,19 +1,75 @@
 <html>
-    <head>
-        <title>Tetris</title>
-    </head>
-    <body>
-        <canvas id=TetrisCanvas width=300 height=600 ></canvas>
-        <button id=StartButton item-width="50" item-height="20"   >Start Game</button>
-        <button id=PauseButton item-width="50" item-height="20" >Pause</button>
-        <button id=StopButton  item-width="50" item-height="20">Stop</button>
-        <button id=RestartButton  item-width="50" item-height="20">Restart</button>
-        <label  id=Score item-width="50" item-height="20">0</label>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script language="javascript" type="text/javascript" src="pile.js"></script>
-        <script language="javascript" type="text/javascript" src="game.js"></script>
-        <script language="javascript" type="text/javascript" src="player.js"></script>
-        <script language="javascript" type="text/javascript" src="blocks.js"></script>
-        <script language="javascript" type="text/javascript" src="tetris.js"></script>
-    </body>
+
+<head>
+    <title>Tetris</title>
+    <style>
+        .wrapper {
+            display: grid;
+            padding: 25px;
+            grid-template-columns: 350px 220px;
+        }
+
+        #sidebar {
+            display: grid;
+            grid-row-gap: 25px;
+            grid-template-rows: 120px 50px 50px 50px 50px 100px;
+        }
+
+        #sidebar>button {
+            font-size: 16;
+            width: 120px;
+            font-family: 'Segoe UI';
+        }
+
+        .Scoreboard {
+            font-size: 22;
+            font-family: 'Segoe UI';
+        }
+
+        .Controls {
+            font-size: 15;
+            font-family: 'Segoe UI';
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class='wrapper'>
+        <div>
+            <canvas id=TetrisCanvas width=300 height=600></canvas>
+        </div>
+        <div id=Sidebar>
+            <canvas id=NextBlock width="120" height="120"></canvas>
+            <button id=StartButton>Start Game</button>
+            <button id=PauseButton>Pause</button>
+            <button id=StopButton>Stop</button>
+            <button id=RestartButton>Restart</button>
+            <div>
+
+                <div class='Scoreboard'>
+                    <label>Score:</label>
+                    <label id=Score>0</label>
+                </div>
+                <div class='Controls'>
+                    <h4>Controls:</h4>
+                    <label>Left and Right Arrows to move<br/>
+                    A and D to rotate<br/>
+                    Space to drop hard <br/> Arrow Down to drop soft</label>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="pile.js"></script>
+    <script language="javascript" type="text/javascript" src="game.js"></script>
+    <script language="javascript" type="text/javascript" src="player.js"></script>
+    <script language="javascript" type="text/javascript" src="blocks.js"></script>
+    <script language="javascript" type="text/javascript" src="tetris.js"></script>
+</body>
+
 </html>

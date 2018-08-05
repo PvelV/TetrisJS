@@ -22,7 +22,7 @@ class Pile {
     static IsBlockOnGround(block, board) {
 
         block.Move(0, 1);
-        let result = Pile.CheckCollision(block,board);
+        let result = Pile.CheckCollision(block, board);
         block.Move(0, -1);
 
         return result;

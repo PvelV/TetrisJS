@@ -1,5 +1,7 @@
 $(document).keydown(function (e) {
-    game.KeyInput(e);
+    if (!gameOver) {
+        game.KeyInput(e);
+    }
 })
 
 $('#StopButton').click(() => {
@@ -24,18 +26,26 @@ const canvas = $('#TetrisCanvas')[0];
 const context = canvas.getContext('2d');
 context.scale(30, 30);
 
-
 context.fillStyle = '#aaa';
 context.fillRect(0, 0, canvas.width, canvas.height);
 
-let gameOver = false;
+
+const nextBlockCanvas = $('#NextBlock')[0];
+const nextBlockContext = nextBlockCanvas.getContext('2d');
+nextBlockContext.scale(30, 30);
+
+nextBlockContext.fillStyle = '#aaa';
+nextBlockContext.fillRect(0, 0, canvas.width, canvas.height);
+
+
+let gameOver = true;
 let Score = 0;
 let cycle = 0;
 let lastTime = 0;
 let interval = 200;
 
 
-let game = new Game(context, interval);
+let game = new Game(context, nextBlockContext, interval);
 
 update();
 
@@ -43,7 +53,7 @@ update();
 
 function Restart() {
 
-    game = new Game(context, interval);
+    game = new Game(context, nextBlockContext, interval);
     Score = 0;
     $('#Score').text(Score);
 
@@ -60,56 +70,22 @@ function update(time = 0) {
 
         cycle = 0;
 
-        if(!game.Step()){
+        if (!game.Step()) {
             //game over
-                 gameOver = true;
-                 alert('Game Over!');
-                 Restart();
+            gameOver = true;
+            alert('Game Over!');
+            Restart();
         }
 
-        // if (block.IsOnGround(game.board)) {
-
-        //     AddBlockToPile();
-
-        //     interval = 500;
-
-        //     var rows = CheckRowFill();
-        //     RemoveRows(rows);
-        //     SetScore(rows.length);
-
-
-        //     if (IsGameOver()) {
-        //         gameOver = true;
-        //         alert('Game Over!');
-        //         Restart();
-        //     }
-
-
-        //     block = GenerateBlock();
-        // }
-        // else {
-
-        //     block.Move(0, 1);
-        // }
     }
     context.fillStyle = '#ccc';
     context.fillRect(0, 0, canvas.width, canvas.height);
+
+    nextBlockContext.fillStyle = '#ccc';
+    nextBlockContext.fillRect(0, 0, nextBlockCanvas.width, nextBlockCanvas.height);
 
     game.Draw();
 
     requestAnimationFrame(update);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,7 +1,6 @@
 class BaseBlock {
-    constructor(CanvasContext) {
+    constructor() {
         this.matrix = [[], []];
-        this.board = CanvasContext;
         this.color;
         this.dropping = false;
 
@@ -50,12 +49,24 @@ class BaseBlock {
 
 
 
-    Draw() {
+    Draw(context) {
         this.matrix.forEach((row, y) => {
             row.forEach((element, x) => {
                 if (element !== 0) {
-                    this.board.fillStyle = this.color;
-                    this.board.fillRect(this.xOffset + x, this.yOffset + y, 1, 1);
+                    context.fillStyle = this.color;
+                    context.fillRect(this.xOffset + x, this.yOffset + y, 1, 1);
+                }
+            })
+
+        });
+    }
+
+    DrawNextBlock(context) {
+        this.matrix.forEach((row, y) => {
+            row.forEach((element, x) => {
+                if (element !== 0) {
+                    context.fillStyle = this.color;
+                    context.fillRect(x, y, 1, 1);
                 }
             })
 
@@ -64,8 +75,8 @@ class BaseBlock {
 }
 
 class T_Block extends BaseBlock {
-    constructor(CanvasContext) {
-        super(CanvasContext);
+    constructor() {
+        super();
 
         this.color = 'red';
         this.matrix = [
@@ -77,8 +88,8 @@ class T_Block extends BaseBlock {
 }
 
 class Square_Block extends BaseBlock {
-    constructor(CanvasContext) {
-        super(CanvasContext);
+    constructor() {
+        super();
 
         this.color = 'green';
         this.matrix = [
@@ -92,8 +103,8 @@ class Square_Block extends BaseBlock {
 }
 
 class I_Block extends BaseBlock {
-    constructor(CanvasContext) {
-        super(CanvasContext);
+    constructor() {
+        super();
 
         this.color = 'blue';
         this.matrix = [
@@ -107,8 +118,8 @@ class I_Block extends BaseBlock {
 
 
 class L_Block extends BaseBlock {
-    constructor(CanvasContext) {
-        super(CanvasContext);
+    constructor() {
+        super();
 
         this.color = 'yellow';
         this.matrix = [
@@ -121,8 +132,8 @@ class L_Block extends BaseBlock {
 
 
 class revL_Block extends BaseBlock {
-    constructor(CanvasContext) {
-        super(CanvasContext);
+    constructor() {
+        super();
 
         this.color = 'yellow';
         this.matrix = [
@@ -134,10 +145,10 @@ class revL_Block extends BaseBlock {
 }
 
 class S_Block extends BaseBlock {
-    constructor(CanvasContext) {
-        super(CanvasContext);
+    constructor() {
+        super();
 
-        this.color = 'yellow';
+        this.color = '#d36c19';
         this.matrix = [
             [0, 1, 1],
             [1, 1, 0],
