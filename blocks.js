@@ -12,18 +12,10 @@ class BaseBlock {
     Move(x, y) {
         this.xOffset += x;
         this.yOffset += y;
-        if (y!=0) {
+        if (y != 0) {
         }
     }
 
-    IsOnGround(globalMatrix) {
-
-        this.Move(0, 1);
-        let result = this.CheckCollision(globalMatrix);
-        this.Move(0, -1);
-        
-        return result;
-    }
 
     RotateRight() {
 
@@ -56,21 +48,6 @@ class BaseBlock {
         }
     }
 
-    CheckCollision(globalMatrix) {
-
-        return this.matrix.some((row, y) => {
-            return row.some((e, x) => {
-
-                if (e == 1) {
-                    if ((x + this.xOffset) < 0 || (x + this.xOffset) > 9 || (y + this.yOffset) < 0 || (y + this.yOffset) > 19
-                        || globalMatrix[y + this.yOffset][x + this.xOffset] == 1) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        })
-    }
 
 
     Draw() {
