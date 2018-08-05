@@ -60,7 +60,12 @@ function update(time = 0) {
 
         cycle = 0;
 
-        game.Step();
+        if(!game.Step()){
+            //game over
+                 gameOver = true;
+                 alert('Game Over!');
+                 Restart();
+        }
 
         // if (block.IsOnGround(game.board)) {
 

@@ -9,6 +9,7 @@ class Game {
         this.block = this.GenerateBlock(context);
         this.interval=interval;
         this.originalInterval=interval;
+        this.score=0;
     }
 
 
@@ -27,17 +28,16 @@ class Game {
             this.SetScore(rows.length);
             
 
-        //     if (IsGameOver()) {
-        //         gameOver = true;
-        //         alert('Game Over!');
-        //         Restart();
-        //     }
+             if (this.IsGameOver()) {
+            return false;
+            }
 
             this.block = this.GenerateBlock(this.context);
-            
+            return true;
         }
         else {
             this.block.Move(0, 1);
+            return true;
         }
         
     }
@@ -55,7 +55,8 @@ class Game {
 
     IsGameOver() {
         for (let i = 0; i < 2; i++) {
-            if (board[i].some((e, x) => { return e == 1; })) {
+            if (this.board[i].some(
+                (e, x) => { return e == 1; })) {
                 
                 return true;
             }
