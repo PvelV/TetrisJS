@@ -49,6 +49,22 @@ const canvas = $('#TetrisCanvas')[0];
 const context = canvas.getContext('2d');
 context.scale(30, 30);
 
+$('#StopButton').click(()=>{
+    gameOver=true;
+})
+
+$('#StartButton').click(()=>{
+    gameOver=false;
+})
+
+$('#PauseButton').click(()=>{
+    gameOver = !gameOver;
+})
+
+$('#RestartButton').click(()=>{
+Restart();
+})
+
 context.fillStyle = '#aaa';
 context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -59,10 +75,24 @@ let gameOver = false;
 
 update();
 
-
+var Score=0;
 var interval = 250;
 var cycle = 0;
 var lastTime = 0;
+
+function SetScore(increment){
+    Score+=increment;
+    $('#Score').text(Score);
+}
+
+function Restart(){
+    pile = new Array();
+    game=new Game();
+    Score=0;
+    $('#Score').text(Score);
+    block = GenerateBlock();
+   
+}
 
 function update(time = 0) {
 
@@ -81,13 +111,17 @@ function update(time = 0) {
             
             interval = 500;
             
-            RemoveRows(CheckRowFill());
+            var rows = CheckRowFill();
+            RemoveRows(rows);
+            SetScore(rows.length);
 
             
             if (IsGameOver()) {
                 gameOver = true;
                 alert('Game Over!');
+                Restart();
             }
+            
             
             block = GenerateBlock();
         }
@@ -124,7 +158,7 @@ function RemoveRows(rows) {
     }
     
     rows.forEach((index) => {
-
+        
         for (let i = 0; i < index; i++) {
             game.board[index - i] = game.board[index - i - 1].slice();
         }

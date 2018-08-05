@@ -8,4 +8,6 @@ class Game{
     SetBoard(x, y, val) {
         this.board[x][y] = val;
     }
+
+    
 }
