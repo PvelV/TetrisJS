@@ -1,27 +1,56 @@
 $(document).keydown(function (e) {
     e.preventDefault();
-    if (!gameOver) {
+
+    if (!gameOver && !pause) {
         game.KeyInput(e);
     }
 })
 
-$('#StopButton').click(() => {
-    gameOver = true;
-})
 
 $('#StartButton').click(() => {
-    gameOver = false;
+
+    if ($('#StartButton')[0].innerHTML == 'Start Game') {
+        pause = false;
+        gameOver = false;
+        $('#StartButton').text('Pause');
+    }
+    else if ($('#StartButton')[0].innerHTML == 'Pause') {
+        pause = true;
+        $('#StartButton').text('Continue');
+    }
+    else {
+        pause = false;
+        $('#StartButton').text('Pause');
+    }
 })
 
-$('#PauseButton').click(() => {
-    gameOver = !gameOver;
-})
 
 $('#RestartButton').click(() => {
     Restart();
+    $('#StartButton').text('Pause');
+    pause = false;
 })
 
+$('#IncreaseDifficulty').click(() => {
 
+    if (difficulty < 10) {
+        difficulty++;
+        interval = 1000 / difficulty;
+        game.interval = interval;
+        game.originalInterval = interval;
+        $('#Difficulty').text(difficulty);
+    }
+})
+
+$('#DecreaseDifficulty').click(() => {
+    if (difficulty > 1) {
+        difficulty--;
+        interval = 1000 / difficulty;
+        game.interval = interval;
+        game.originalInterval = interval;
+        $('#Difficulty').text(difficulty);
+    }
+})
 
 const canvas = $('#TetrisCanvas')[0];
 const context = canvas.getContext('2d');
@@ -38,12 +67,13 @@ nextBlockContext.scale(30, 30);
 nextBlockContext.fillStyle = '#aaa';
 nextBlockContext.fillRect(0, 0, canvas.width, canvas.height);
 
-
-let gameOver = true;
+let difficulty = 5;
+let pause = true;
+let gameOver = false;
 let Score = 0;
 let cycle = 0;
 let lastTime = 0;
-let interval = 200;
+let interval = 1000/difficulty;
 
 
 let game = new Game(context, nextBlockContext, interval);
@@ -54,6 +84,8 @@ update();
 
 function Restart() {
 
+    pause = true;
+    gameOver = false;
     game = new Game(context, nextBlockContext, interval);
     Score = 0;
     $('#Score').text(Score);
@@ -67,13 +99,15 @@ function update(time = 0) {
     cycle += dTime;
 
 
-    if (cycle > game.interval && !gameOver) {
+    if (cycle > game.interval && !gameOver && !pause) {
 
         cycle = 0;
 
         if (!game.Step()) {
             //game over
             gameOver = true;
+            pause = true;
+            $('#StartButton').text('Start Game');
             alert('Game Over!');
             Restart();
         }

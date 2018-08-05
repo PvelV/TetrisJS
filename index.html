@@ -3,7 +3,6 @@
 <head>
     <title>Tetris</title>
     <style>
-                
         .wrapper {
             display: grid;
             padding: 25px;
@@ -13,16 +12,20 @@
         #sidebar {
             display: grid;
             grid-row-gap: 25px;
-            grid-template-rows: 120px 50px 50px 50px 50px 100px;
+            grid-template-rows: 120px 50px 50px 50px 100px;
         }
 
-        #sidebar>button {
+        #sidebar > button {
             font-size: 16;
             width: 120px;
             font-family: 'Segoe UI';
-            
         }
 
+        #Difficulty > label {
+            font-size: 15;
+            font-family: 'Segoe UI';
+        }
+       
         .Scoreboard {
             font-size: 22;
             font-family: 'Segoe UI';
@@ -32,7 +35,6 @@
             font-size: 15;
             font-family: 'Segoe UI';
         }
-
     </style>
 </head>
 
@@ -43,9 +45,14 @@
         </div>
         <div id=Sidebar>
             <canvas id=NextBlock width="120" height="120"></canvas>
+            <div id=Difficulty>
+                <label>Difficulty:</label>
+                <br/>
+                <button id=DecreaseDifficulty>-</button>
+                <label id=Difficulty>5</label>
+                <button id=IncreaseDifficulty>+</button>
+            </div>
             <button id=StartButton>Start Game</button>
-            <button id=PauseButton>Pause</button>
-            <button id=StopButton>Stop</button>
             <button id=RestartButton>Restart</button>
             <div>
 
@@ -55,9 +62,10 @@
                 </div>
                 <div class='Controls'>
                     <h4>Controls:</h4>
-                    <label>Left and Right Arrows to move<br/>
-                    A and D to rotate<br/>
-                    Space to drop hard <br/> Arrow Down to drop soft</label>
+                    <label>Left and Right Arrows to move
+                        <br/> A and D to rotate
+                        <br/> Space to drop hard
+                        <br/> Arrow Down to drop soft</label>
 
                 </div>
             </div>
