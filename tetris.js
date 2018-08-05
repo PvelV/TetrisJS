@@ -1,4 +1,5 @@
 $(document).keydown(function (e) {
+    e.preventDefault();
     if (!gameOver) {
         game.KeyInput(e);
     }
