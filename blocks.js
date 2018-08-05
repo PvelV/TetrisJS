@@ -3,8 +3,8 @@ class BaseBlock {
         this.matrix = [[], []];
         this.board = CanvasContext;
         this.color;
-        this.dropping=false;
-        
+        this.dropping = false;
+
         this.xOffset = 3;
         this.yOffset = 0;
     }
@@ -12,7 +12,9 @@ class BaseBlock {
     Move(x, y) {
         this.xOffset += x;
         this.yOffset += y;
-        //        console.log(this.yOffset);
+        if (y!=0) {
+            console.log(this.yOffset);
+        }
     }
 
     IsOnGround(globalMatrix) {
@@ -20,6 +22,8 @@ class BaseBlock {
         this.Move(0, 1);
         let result = this.CheckCollision(globalMatrix);
         this.Move(0, -1);
+        console.log('IsOnGround ' + globalMatrix.toString());
+        
         return result;
     }
 
@@ -90,9 +94,9 @@ class T_Block extends BaseBlock {
 
         this.color = 'red';
         this.matrix = [
+            [0, 0, 0],
             [1, 1, 1],
-            [0, 1, 0],
-            [0, 0, 0]
+            [0, 1, 0]
         ]
     }
 }
@@ -118,10 +122,10 @@ class I_Block extends BaseBlock {
 
         this.color = 'blue';
         this.matrix = [
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0]
+            [0, 0, 0, 0],
+            [1, 1, 1, 1],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]
         ]
     }
 }
@@ -133,9 +137,9 @@ class L_Block extends BaseBlock {
 
         this.color = 'yellow';
         this.matrix = [
-            [0, 1, 0],
-            [0, 1, 0],
-            [0, 1, 1]
+            [0, 0, 1],
+            [1, 1, 1],
+            [0, 0, 0]
         ];
     }
 }
@@ -147,9 +151,9 @@ class revL_Block extends BaseBlock {
 
         this.color = 'yellow';
         this.matrix = [
-            [0, 1, 0],
-            [0, 1, 0],
-            [1, 1, 0]
+            [1, 0, 0],
+            [1, 1, 1],
+            [0, 0, 0]
         ];
     }
 }

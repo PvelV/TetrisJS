@@ -1,56 +1,49 @@
 $(document).keydown(function (e) {
 
+    if (block.dropping)
+        return;
 
     switch (e.which) {
         case 32: // space - drop
             block.dropping = true;
+            interval = 1;
             break;
         case 37: //left
             block.Move(-1, 0);
-            if (block.CheckCollision(board)) {
+            if (block.CheckCollision(game.board)) {
                 block.Move(1, 0);
             }
             break;
 
-
-        case 38: //up - testing only
-            //block.Move(0, -1);
-            //           if (block.CheckCollision(board)) {
-            //              block.Move(0, 1);
-            //         }
-            break;
-
-
         case 39: //right
             block.Move(1, 0);
-            if (block.CheckCollision(board)) {
+            if (block.CheckCollision(game.board)) {
                 block.Move(-1, 0);
             }
             break;
         case 40: //down
             block.Move(0, 1);
-            if (block.CheckCollision(board)) {
+            if (block.CheckCollision(game.board)) {
                 block.Move(0, -1);
             }
             break;
 
         case 65: //a
             block.RotateLeft();
-            if (block.CheckCollision(board)) {
+            if (block.CheckCollision(game.board)) {
                 block.RotateRight();
             }
             break;
         case 68: //d
             block.RotateRight();
-            if (block.CheckCollision(board)) {
+            if (block.CheckCollision(game.board)) {
                 block.RotateLeft();
             }
             break;
     }
 })
 
-var pile = new Array();
-
+let game = new Game();
 
 const canvas = $('#TetrisCanvas')[0];
 const context = canvas.getContext('2d');
@@ -61,17 +54,11 @@ context.fillRect(0, 0, canvas.width, canvas.height);
 
 var block = GenerateBlock();
 
-let board = new Array(21);
-
-for (var i = 0; i < 20; i++) {
-    board[i] = new Array(10).fill(0);
-}
-// board[20] = new Array(10).fill(1);
-// board[21] = new Array(10).fill(1);
-// board[22] = new Array(10).fill(1);
-// board[23] = new Array(10).fill(1);
+var pile = new Array();
+let gameOver = false;
 
 update();
+
 
 var interval = 250;
 var cycle = 0;
@@ -84,16 +71,24 @@ function update(time = 0) {
     cycle += dTime;
 
 
-    if (cycle > interval) {
+    if (cycle > interval && !gameOver) {
 
         cycle = 0;
-
-        if (block.IsOnGround(board)) {
+        
+        if (block.IsOnGround(game.board)) {
+            
             AddBlockToPile();
+            
             interval = 500;
-
+            
             RemoveRows(CheckRowFill());
 
+            
+            if (IsGameOver()) {
+                gameOver = true;
+                alert('Game Over!');
+            }
+            
             block = GenerateBlock();
         }
         else {
@@ -112,20 +107,40 @@ function update(time = 0) {
 }
 
 
+
+function IsGameOver() {
+    for (let i = 0; i < 2; i++) {
+        if (game.board[i].some((e, x) => { return e == 1; })) {
+
+            return true;
+        }
+    }
+    return false;
+}
+
 function RemoveRows(rows) {
+    console.log(rows)
+    console.log(game.board.toString());
+    if (rows == undefined || rows.length === 0) {
+        console.log('not')
+        return;
+    }
+    console.log('removing');
+    
     rows.forEach((index) => {
-        console.log(index);
+
         for (let i = 0; i < index; i++) {
-            board[index - i] = board[index - i - 1];
+            game.board[index - i] = game.board[index - i - 1].slice();
         }
     })
+
 }
 
 function CheckRowFill() {
 
     let res = new Array();
 
-    board.forEach((row, y) => {
+    game.board.forEach((row, y) => {
         if (row.every((e, x) => { return e == 1; })) {
             res.push(y);
         }
@@ -135,30 +150,29 @@ function CheckRowFill() {
 
 
 function DrawPile() {
-    board.forEach((row, y) => {
+    game.board.forEach((row, y) => {
         row.forEach((e, x) => {
 
             if (e == 1) {
                 context.fillStyle = '#333';
                 context.fillRect(x, y, 1, 1);
             }
-            if (e == 2) {
-                console.log('paint 2')
-                context.fillStyle = 'red';
-                context.fillRect(x, y, 1, 1);
-            }
-
         })
     })
 
 }
 
 function AddBlockToPile() {
-    pile.push(block);
+    let addedBlocks = 0;
     block.matrix.forEach((row, y) => {
         row.forEach((e, x) => {
             if (e == 1) {
-                board[block.yOffset + y][block.xOffset + x] = 1;
+                game.SetBoard((block.yOffset + y),(block.xOffset + x), 1);
+                addedBlocks++;
+                console.log('added blocks:' + addedBlocks);
+            }
+            if (addedBlocks > 4) {
+                alert('error');
             }
         })
     });
@@ -198,7 +212,5 @@ function GenerateBlock() {
             return new Square_Block(context);
             break;
 
-        default:
-            console.log('wrong random')
     }
 }
