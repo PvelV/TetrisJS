@@ -146,7 +146,7 @@ class Game {
 
     GenerateBlock() {
 
-        switch (Math.floor(Math.random() * 6)) {
+        switch (Math.floor(Math.random() * 7)) {
 
             case 0:
                 return new T_Block();
@@ -175,6 +175,11 @@ class Game {
 
             case 5:
                 return new Square_Block();
+                break;
+                
+                
+            case 6:
+                return new Z_Block();
                 break;
 
         }
