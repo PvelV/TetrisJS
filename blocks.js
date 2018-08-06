@@ -156,3 +156,16 @@ class S_Block extends BaseBlock {
         ];
     }
 }
+
+class Z_Block extends BaseBlock {
+    constructor() {
+        super();
+
+        this.color = '#d36c19';
+        this.matrix = [
+            [1, 1, 0],
+            [0, 1, 1],
+            [0, 0, 0]
+        ];
+    }
+}
